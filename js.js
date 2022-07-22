@@ -15,8 +15,6 @@ let theGame = new Game("paper", "rock", "scissors", 0, 2);
 
 
 
-
-
 function playRound(playerMove) {
 
     // get computer move 
