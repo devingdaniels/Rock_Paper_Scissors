@@ -1,43 +1,87 @@
-// RPS game elements 
-class Game {
-    constructor(paper, rock, scissors, computerWins, playerWins) {
-        this.computerWins = computerWins;
-        this.playerWins = playerWins;
-        this.paper = paper;
-        this.rock = rock;
-        this.scissors = scissors;
-    }
-};
-
+// CONSTANTS
+const ROCK = "rock";
+const PAPER = "paper";
+const SCISSORS = "scissors";
 const winCap = 5;
-const startingScore = 0;
-let theGame = new Game("paper", "rock", "scissors", 0, 2);
+const playerScore = document.querySelector('#player-score');
+const computerScore = document.querySelector('#computer-score');
+const scoreText = document.querySelector('.scoreboard-text');
+const currentRound = document.querySelector('#round-number')
 
+// VARIABLES
+let buttons = document.querySelectorAll('button');
+let playerMove;
+let computerMove;
+let computerWins = 0;
+let playerWins = 0;
+let roundCount = 0;
 
+// we use the .forEach method to iterate through each button
+buttons.forEach((button) => {
+    // and for each one we add a 'click' listener
+    button.addEventListener('click', () => {
+        if (button.id !== "play-again") {
+            playerMove = button.id;
+            getWinner();
+        } else {
+            window.location.reload();
+            playerScore.textContent = 0;
+        }
+    });
+});
 
-function playRound(playerMove) {
+function getWinner() {
 
-    // get computer move 
-    const computerSelection = getComputerMove();
-    const playerSelection = playerMove;
+    computerMove = getComputerMove();
 
-
-    if (playerSelection === theGame.rock && computerSelection === theGame.scissors) {
-        theGame.playerWins++;
-    } else if (playerSelection === theGame.rock && computerSelection === theGame.paper) {
-        theGame.computerWins++;
-    } else if (playerSelection === theGame.paper && computerSelection === theGame.rock) {
-        theGame.playerWins++;
-    } else if (playerSelection === theGame.paper && computerSelection === theGame.scissors) {
-        theGame.computerWins++;
-    } else if (playerSelection === theGame.scissors && computerSelection === theGame.rock) {
-        theGame.computerWins++;
-    } else if (playerSelection === theGame.scissors && computerSelection === theGame.paper) {
-        theGame.playerWins++;
+    if (computerWins < 5 && playerWins < 5) {
+        if (playerMove === computerMove) {
+            scoreText.textContent = "It's a tie!";
+            console.log("it's a tie");
+        } else if (playerMove === ROCK && computerMove === PAPER) {
+            scoreText.textContent = "Your rock loses to paper!";
+            computerWins += 1;
+            computerScore.textContent = computerWins;
+        } else if (playerMove === ROCK && computerMove === SCISSORS) {
+            scoreText.textContent = "Your rock beats scissors!";
+            playerWins += 1;
+            playerScore.textContent = playerWins;
+        } else if (playerMove === PAPER && computerMove === ROCK) {
+            scoreText.textContent = "Your paper beats rock!";
+            playerWins += 1;
+            playerScore.textContent = playerWins;
+        } else if (playerMove === PAPER && computerMove === SCISSORS) {
+            scoreText.textContent = "Your paper loses to scissors!";
+            computerWins += 1;
+            computerScore.textContent = computerWins;
+        } else if (playerMove === SCISSORS && computerMove === ROCK) {
+            scoreText.textContent = "Your scissors loses to rock!";
+            computerWins += 1;
+            computerScore.textContent = computerWins;
+        } else if (playerMove === SCISSORS && computerMove === PAPER) {
+            scoreText.textContent = "Your scissors beats paper!";
+            playerWins += 1;
+            playerScore.textContent = playerWins;
+        }
     }
 
+    if (computerWins >= winCap || playerWins >= winCap) {
+        declareWinner();
+    } else {
+        roundCount += 1;
+        currentRound.textContent = roundCount;
+    }
+}
 
 
+function declareWinner() {
+    if (computerWins === playerWins) {
+        scoreText.textContent = "It is a tie game!"
+    } else if (computerWins > playerWins) {
+        scoreText.textContent = "You lost to Mr Binary!"
+    } else {
+        scoreText.textContent = "You win!"
+    }
 }
 
 function getComputerMove() {
@@ -48,11 +92,11 @@ function getComputerMove() {
     // variable for the move string
     var move;
     if (n == 0) {
-        move = theGame.rock;
+        move = ROCK;
     } else if (n == 1) {
-        move = theGame.paper;
+        move = PAPER;
     } else {
-        move = theGame.scissors;
+        move = SCISSORS;
     }
     return move;
 }

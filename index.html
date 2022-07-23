@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <title>RPS</title>
     <script src="js.js" defer></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 </head>
 
 <body>
@@ -16,13 +17,14 @@
             <h1 class="main-title">Rock Paper Scissors</h1>
         </header>
         <div class="scoreboard">
-            <h1 class="scoreboard-text">Attain of 5 total wins to beat Mr Binary!</h1>
+            <h1 class="scoreboard-text">First to 5 is the winner!</h1>
         </div>
         <div class="dashboard">
             <div class="player-dash">
                 <h5>Humanoid</h5>
                 <div id="player-score">0</div>
             </div>
+            <div class="round">Round <span id="round-number">0</span></div>
             <div class="computer-dash">
                 <h5>Mr Binary</h5>
                 <div id="computer-score">0</div>
@@ -32,19 +34,25 @@
             </div>
         </div>
         <div class="controls">
-            <button class="button">Rock</button>
-            <button class="button">Paper</button>
-            <button class="button">Scissors</button>
+            <button id="rock" class="button">Rock</button>
+            <button id="paper" class="button">Paper</button>
+            <button id="scissors" class="button">Scissors</button>
         </div>
         <div id="play-again">
-            <button class="button">Play Again</button></div>
+            <button id="play-again" class="button">Play Again</button></div>
+        <footer class="footer">
+            <p>
+                Copyright ©
+                <script>
+                    document.write(new Date().getFullYear())
+                </script>
+                devingdaniels
+                <a href="https://github.com/devingdaniels" target="_blank">
+                    <i class="fab fa-github"></i
+                    ></a>
+            </p>
+           
+              </footer>
     </div>
-    <footer></footer>
 </body>
-
 </html>
-
-<!--- 
-
-
--->

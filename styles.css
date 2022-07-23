@@ -1,10 +1,10 @@
 * {
     padding: 0;
     margin: 0;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: monospace;
+    background-color: black;
+    color: white;
 }
-
-header {}
 
 h5 {
     font-size: 25px;
@@ -48,6 +48,18 @@ h5 {
     margin: 30px 0 30px 0;
 }
 
+.round {
+    text-align: center;
+    margin: 60px 0 30px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#round-number {
+    font-size: 40px;
+    padding-top: 5px;
+}
+
 .controls {
     text-align: center;
     padding: 30px 0 30px 0;
@@ -58,6 +70,7 @@ h5 {
 }
 
 #play-again {
+    margin-top: 20px;
     text-align: center;
 }
 
@@ -104,4 +117,20 @@ h5 {
 .button:active {
     box-shadow: #3c4fe0 0 3px 7px inset;
     transform: translateY(2px);
+}
+
+.footer {
+    margin: 30px auto 10px auto;
+    color: var(--primary-light);
+    font-size: 20px;
+}
+
+.fa-github {
+    color: var(--primary-light);
+    font-size: 24px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.fa-github:hover {
+    transform: rotate(360deg) scale(1.2);
 }
