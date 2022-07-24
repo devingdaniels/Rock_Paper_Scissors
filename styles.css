@@ -16,6 +16,7 @@ h5 {
     width: 60%;
     margin: 0 auto 0px auto;
     flex-direction: column;
+    min-width: 500px;
 }
 
 .main-title {

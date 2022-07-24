@@ -8,9 +8,6 @@ const computerScore = document.querySelector('#computer-score');
 const scoreText = document.querySelector('.scoreboard-text');
 const currentRound = document.querySelector('#round-number');
 
-
-
-
 // VARIABLES
 let buttons = document.querySelectorAll('button');
 let playerMove;
