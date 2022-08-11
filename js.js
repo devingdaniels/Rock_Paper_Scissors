@@ -1,95 +1,22 @@
-// CONSTANTS
-const ROCK = "rock";
-const PAPER = "paper";
-const SCISSORS = "scissors";
-const winCap = 5;
 const playerScore = document.querySelector('#player-score');
 const computerScore = document.querySelector('#computer-score');
 const scoreText = document.querySelector('.scoreboard-text');
 const currentRound = document.querySelector('#round-number');
 
-// VARIABLES
-let buttons = document.querySelectorAll('button');
-let playerMove;
-let computerMove;
-let computerWins = 0;
-let playerWins = 0;
-let roundCount = 0;
-
-// we use the .forEach method to iterate through each button
-buttons.forEach((button) => {
-    // and for each one we add a 'click' listener
-    button.addEventListener('click', () => {
-        if (button.id !== "play-again") {
-            playerMove = button.id;
-            getWinner();
-        } else {
-            window.location.reload();
-            playerScore.textContent = 0;
-        }
-    });
-});
-
-function getWinner() {
-
-    computerMove = getComputerMove();
-
-    let winner;
-
-
-    if (computerWins < 5 && playerWins < 5) {
-        if (playerMove === computerMove) {
-            winner = "none";
-        } else if (playerMove === ROCK && computerMove === PAPER) {
-            scoreText.textContent = "Your rock loses to paper!";
-            winner = "computer";
-        } else if (playerMove === ROCK && computerMove === SCISSORS) {
-            scoreText.textContent = "Your rock beats scissors!";
-            winner = "player";
-        } else if (playerMove === PAPER && computerMove === ROCK) {
-            scoreText.textContent = "Your paper beats rock!";
-            winner = "player";
-        } else if (playerMove === PAPER && computerMove === SCISSORS) {
-            scoreText.textContent = "Your paper loses to scissors!";
-            winner = "computer";
-        } else if (playerMove === SCISSORS && computerMove === ROCK) {
-            scoreText.textContent = "Your scissors loses to rock!";
-            winner = "computer";
-        } else if (playerMove === SCISSORS && computerMove === PAPER) {
-            scoreText.textContent = "Your scissors beats paper!";
-            winner = "player";
-        }
+class RockPaperScissors{
+    constructor(){
+        this.ROCK = 'rock'
+        this.PAPER = 'paper'
+        this.SCISSORS = 'scissors'
+        this.winCap = 5
+        this.playerMove = "unknown"
+        this.computerMove = "unknown"
+        this.playerWins = 0
+        this.computerWins = 0
+        this.roundCount = 0
     }
-
-    if (computerWins >= winCap || playerWins >= winCap) {
-        declareWinner();
-    } else {
-        roundCount += 1;
-        currentRound.textContent = roundCount;
-        if (winner === "none") {
-            scoreText.textContent = "It's a tie!";
-        } else if (winner === "player") {
-            playerWins += 1;
-            playerScore.textContent = playerWins;
-        } else {
-            computerWins += 1;
-            computerScore.textContent = computerWins;
-        }
-    }
-}
-
-
-function declareWinner() {
-    if (computerWins === playerWins) {
-        scoreText.textContent = "It is a tie game!"
-    } else if (computerWins > playerWins) {
-        scoreText.textContent = "You lost to Mr Binary!"
-    } else {
-        scoreText.textContent = "You win!"
-    }
-}
-
-function getComputerMove() {
+    
+ getComputerMove() {
     // get a random num
     let n = Math.random() * 3;
     // floor it
@@ -97,11 +24,115 @@ function getComputerMove() {
     // variable for the move string
     var move;
     if (n == 0) {
-        move = ROCK;
+        move = this.ROCK;
     } else if (n == 1) {
-        move = PAPER;
+        move = this.PAPER;
     } else {
-        move = SCISSORS;
+        move = this.SCISSORS;
     }
     return move;
 }
+
+
+setUpButtons(){
+    const buttons = document.querySelectorAll('.button')
+    // we use the .forEach method to iterate through each button
+    buttons.forEach((button) => {
+    // and for each one we add a 'click' listener
+    button.addEventListener('click', () => {
+        if (button.id === this.ROCK || button.id === this.PAPER || button.id === this.SCISSORS) {
+            // update the player move and play the round
+            this.playerMove = button.id;
+            this.playRound()
+        } else if (button.id === "play-again") {
+            this.resetGame()
+        }
+    });
+});
+}
+
+playRound() {
+    // get a move from the computer 
+    this.computerMove = this.getComputerMove();
+    let winner;
+    if (this.computerWins < 5 && this.playerWins < 5) {
+        if (this.playerMove === this.computerMove) {
+            winner = "none";
+        } else if (this.playerMove === this.ROCK && this.computerMove === this.PAPER) {
+            scoreText.textContent = "Your rock loses to paper!";
+            this.computerWins += 1;
+            winner = "computer";
+        } else if (this.playerMove === this.ROCK && this.computerMove === this.SCISSORS) {
+            scoreText.textContent = "Your rock beats scissors!";
+            this.playerWins += 1;
+            winner = "player";
+        } else if (this.playerMove === this.PAPER && this.computerMove === this.ROCK) {
+            scoreText.textContent = "Your paper beats rock!";
+            this.playerWins += 1;
+            winner = "player";
+        } else if (this.playerMove === this.PAPER && this.computerMove === this.SCISSORS) {
+            scoreText.textContent = "Your paper loses to scissors!";
+            this.computerWins += 1;
+            winner = "computer";
+        } else if (this.playerMove === this.SCISSORS && this.computerMove === this.ROCK) {
+            scoreText.textContent = "Your scissors loses to rock!";
+            this.computerWins += 1;
+            winner = "computer";
+        } else if (this.playerMove === this.SCISSORS && this.computerMove === this.PAPER) {
+            scoreText.textContent = "Your scissors beats paper!";
+            this.playerWins += 1;
+            winner = "player";
+        }
+    }
+
+    if (this.computerWins >= this.winCap || this.playerWins >= this.winCap) {
+        this.updateScoreCard(winner)
+        this.declareWinner()
+     }else {
+        this.roundCount += 1;
+        this.updateScoreCard(winner)
+     }  
+}
+
+
+updateScoreCard(winner){
+    currentRound.textContent = this.roundCount;
+    if (winner === "none") {
+        scoreText.textContent = "Tie Round!";
+    } else if (winner === "player") {
+        playerScore.textContent = this.playerWins;
+    } else {
+        computerScore.textContent = this.computerWins;
+    }
+  }
+
+declareWinner() {
+    if (this.computerWins === this.playerWins) {
+        scoreText.textContent = "The game is a tie!"
+    } else if (this.computerWins > this.playerWins) {
+        scoreText.textContent = "You lost to Mr Binary!"
+    } else {
+        scoreText.textContent = "You beat MR. Binary!"
+    }
+}
+
+resetGame(){
+    // reset the UI scores
+    playerScore.textContent = 0
+    computerScore.textContent = 0
+    currentRound.textContent = 0
+    scoreText.textContent = "Choose your weapon"
+    // reset class properties
+    this.playerMove = "unknown"
+    this.computerMove = "unknown"
+    this.playerWins = 0
+    this.computerWins = 0
+    this.roundCount = 0
+}
+}
+
+const RunGame = (() =>{
+    const rockPaperScissors = new RockPaperScissors()
+    rockPaperScissors.setUpButtons()
+})()
+
